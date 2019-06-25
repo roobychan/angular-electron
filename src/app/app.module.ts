@@ -25,6 +25,10 @@ import {MatFormFieldModule, MatInputModule, MatButtonModule} from '@angular/mate
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
+import { MatMenuModule } from "@angular/material/menu";
+
+
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -47,7 +51,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
+        useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
     }),
@@ -57,10 +61,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatAutocompleteModule,
     MatIconModule,
+    MatMenuModule,
     MatTableModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent],
   exports: [MDViewerComponent]
 })
-export class AppModule { }
+export class AppModule {}

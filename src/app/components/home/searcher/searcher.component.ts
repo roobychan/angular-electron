@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { MarkdownFile } from '../../../markdown-file';
 
 var fs = require('fs');
@@ -10,11 +10,12 @@ var fts = require('flexsearch');
   styleUrls: ['./searcher.component.scss']
 })
 export class SearcherComponent implements OnInit {
+  @Input() mdpath: string;
   @Output() search = new EventEmitter<string>();
   sText:string;
   sOptions = [];
   sFiles = [];
-  mdpath:string = 'src/assets/KB/';
+  // mdpath:string = 'src/assets/KB/';
   file:MarkdownFile;
   searcher = new fts({
     doc:{
@@ -30,13 +31,17 @@ export class SearcherComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
+  }
+
+  ngOnChanges() {
     let files = fs.readdirSync(this.mdpath);
     files.forEach(element => {
       let mdfile = this.mdpath + element;
       let file:MarkdownFile = new MarkdownFile();
       let data = fs.readFileSync(mdfile ,{ encoding: 'utf-8'});
       file = new MarkdownFile();
-      file.filename = mdfile;
+      file.filename = element;
       let lines = data.toString().split("\r\n");
       file.title = lines[0];
       lines.shift();
@@ -64,6 +69,6 @@ export class SearcherComponent implements OnInit {
   }
 
   showFile(name:string){
-    this.search.emit(name);
+    this.search.emit(this.mdpath+name);
   }
 }
