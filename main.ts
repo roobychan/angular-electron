@@ -26,6 +26,7 @@ function createWindow() {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
     });
+
     win.loadURL('http://localhost:4200');
   } else {
     win.loadURL(url.format({
@@ -74,6 +75,7 @@ try {
   });
 
 } catch (e) {
+  console.log(e);
   // Catch Error
   // throw e;
 }

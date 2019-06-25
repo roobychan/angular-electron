@@ -1,0 +1,28 @@
+<div>
+  <form>
+    <mat-form-field>
+      <input type="text" matInput placeholder="search" [(ngModel)]="sText" name="sText"/>
+    </mat-form-field>
+    <button type="submit" mat-button (click)="searchFile()" [hidden]="true" color="primary">Search</button>
+  </form>
+</div>
+<div>
+  <table mat-table [dataSource]="sOptions" class="mat-elevation-z8">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="filename">
+    <th mat-header-cell *matHeaderCellDef> File Name </th>
+    <td mat-cell *matCellDef="let element"> 
+      <button mat-button (click)="showFile(element.filename)" color="primary">Display</button>
+      {{element.filename}} </td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+    <td mat-cell *matCellDef="let element"> <button (click)="open({{element.filename}})"></button> </td>
+  </ng-container> -->
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>

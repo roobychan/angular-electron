@@ -1,38 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Input } from '@angular/core';
+import { MarkdownFile } from '../../../markdown-file';
+
 
 var md = require('markdown-it')();
-// var search = require('full-text-search-light')({ ignore_case: false});
-var fulltextsearchlight = require('full-text-search-light');
-var search = new fulltextsearchlight({
-  ignore_case: true   // default = true, Ignore case during all search queries
-  // index_amount: 8;   // default = 12, The more indexes you have, the faster can be your search but the slower the 'add' method  gets
-});
+var fs = require('fs');
 
 @Component({
   selector: 'app-mdviewer',
   templateUrl: './mdviewer.component.html',
-  styleUrls: ['./mdviewer.component.scss']
+  styleUrls: ['./mdviewer.component.scss','./markdown.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MDViewerComponent implements OnInit {
-  result = '';
 
+export class MDViewerComponent implements OnInit {
+  file: MarkdownFile;
+  @Input() mdfile;
+  @ViewChild('mdContainer',{static: false}) mdContainer: ElementRef;
+  @ViewChild('mdTitle',{static: false}) mdTitle: ElementRef;
   constructor() { }
 
   ngOnInit() {
-    search.add({
-      name: 'test',
-      content: 'music of one'
-    });
-    search.add({
-      name: 'CHEN',
-      content: 'computer expert'
-    });
-    search.add({
-      name: 'Carol',
-      content: 'HR consultant'
-    });
-    console.log(search.search('ca'));
-    this.result = md.render('# test rooby');
+    if (this.mdfile === '') {
+      return;
+    }
   }
-
+  ngOnChanges() {
+    if (this.mdfile === '') {
+      return;
+    }
+    fs.readFile(this.mdfile ,{ encoding: 'utf-8'}, (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.file = new MarkdownFile();
+      this.file.filename = this.mdfile;
+      let lines = data.toString().split("\r\n");
+      this.file.title = lines[0];
+      // this.result = md.render('# test roooby');
+      lines.shift();
+      this.file.content = lines.join('\r\n');
+      this.mdContainer.nativeElement.innerHTML = md.render(this.file.content);
+      this.mdTitle.nativeElement.innerHTML = md.render(this.file.title);
+    });
+  }
 }

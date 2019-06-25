@@ -19,6 +19,12 @@ import { WebviewDirective } from './directives/webview.directive';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { MDViewerComponent } from './components/home/mdviewer/mdviewer.component';
+import { SearcherComponent } from './components/home/searcher/searcher.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule, MatInputModule, MatButtonModule} from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,7 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    MDViewerComponent
+    MDViewerComponent,
+    SearcherComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +50,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    MatTableModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent],
