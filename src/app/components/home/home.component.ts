@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-var fpath = require('path');
+// var fpath = require('path');
+var fs = require('fs');
+var config = require('electron-json-config');
 
 @Component({
   selector: 'app-home',
@@ -10,11 +12,12 @@ var fpath = require('path');
 export class HomeComponent implements OnInit {
   file = '';
   path = '';
-  
+  settings = {};
   constructor() { }
 
   ngOnInit() {
-    this.path = 'src/assets/KB/'
+    // this.path = 'src/assets/KB/'
+    this.path = config.get('path');
   }
 
   onSearch(file:string){
@@ -27,10 +30,12 @@ export class HomeComponent implements OnInit {
       properties: ["openDirectory"]
     });
     if (spath) {
-      this.path = spath[0]
+      this.path = spath[0]+'/';
     } else {
       return;
     }
-    this.path = fpath.relative(process.cwd(), this.path)+'/';
+    config.set('path',this.path);
+    console.log(this.path);
+    // this.path = fpath.relative(process.cwd(), this.path)+'/';
  }
 }

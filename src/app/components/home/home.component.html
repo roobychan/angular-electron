@@ -1,5 +1,5 @@
 <div class="container">
-  <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">Menu</button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="getPath()" color="primary">Choose Folder</button>
   </mat-menu>

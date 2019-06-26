@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { Input } from '@angular/core';
 import { MarkdownFile } from '../../../markdown-file';
 
@@ -10,7 +10,8 @@ var fs = require('fs');
   selector: 'app-mdviewer',
   templateUrl: './mdviewer.component.html',
   styleUrls: ['./mdviewer.component.scss','./markdown.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 
 export class MDViewerComponent implements OnInit {
@@ -26,6 +27,7 @@ export class MDViewerComponent implements OnInit {
     }
   }
   ngOnChanges() {
+    console.log(this.mdfile);
     if (this.mdfile === '') {
       return;
     }
