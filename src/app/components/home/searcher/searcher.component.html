@@ -1,7 +1,7 @@
 <div>
   <form>
     <mat-form-field>
-      <input type="text" matInput placeholder="search" [(ngModel)]="sText" name="sText"/>
+      <input type="text" matInput placeholder="search" [(ngModel)]="sText" name="sInput" #sInput/>
     </mat-form-field>
     <button type="submit" mat-button (click)="searchFile()" [hidden]="true" color="primary">Search</button>
   </form>

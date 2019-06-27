@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import { Component, OnInit, EventEmitter, ViewChild, ElementRef, Output, Input } from "@angular/core";
 import { MarkdownFile } from "../../../markdown-file";
 
+var ipc = require('electron').ipcRenderer;
 var fs = require("fs");
 var fts = require("flexsearch");
 
@@ -11,7 +12,9 @@ var fts = require("flexsearch");
 })
 export class SearcherComponent implements OnInit {
   @Input() mdpath: string;
-  @Output() search = new EventEmitter<string>();
+  @Output() search = new EventEmitter<[string,string]>();
+  @ViewChild("sInput", { static: false }) sInput: ElementRef;
+
   sText: string;
   sOptions = [];
   sFiles = [];
@@ -30,8 +33,17 @@ export class SearcherComponent implements OnInit {
   displayedColumns: string[] = ["filename"];
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {    
+    ipc.on('toSearch',()=>{
+      console.log('toSearch');
+      this.sInput.nativeElement.focus();
+    });
     this.getFiles();
+  }
+
+  ngAfterViewInit(){
+    this.sInput.nativeElement.focus();
+    console.log("after view init")
   }
 
   ngOnChanges() {
@@ -57,7 +69,6 @@ export class SearcherComponent implements OnInit {
       this.sOptions.push(file);
       // this.search.emit('src/assets/test.md');
     });
-    console.log(this.sOptions);
     this.sOptions.forEach(element => {
       this.searcher.add(element);
       this.sFiles.push(element);
@@ -70,12 +81,10 @@ export class SearcherComponent implements OnInit {
     } else {
       this.sOptions = this.sFiles.slice();
     }
-
-    // console.log(this.seacher);
-    // console.log(this.seacher.search(this.sText));
   }
 
   showFile(name: string) {
-    this.search.emit(this.mdpath + name);
+    this.search.emit([this.mdpath + name,this.sText]);
   }
 }
+

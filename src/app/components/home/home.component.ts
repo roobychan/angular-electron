@@ -11,8 +11,10 @@ var config = require('electron-json-config');
 })
 export class HomeComponent implements OnInit {
   file = '';
-  path = '';
+  path:string ;
+  sText:string;
   settings = {};
+  outpram: [string,string];
   constructor() { }
 
   ngOnInit() {
@@ -22,6 +24,8 @@ export class HomeComponent implements OnInit {
 
   onSearch(file:string){
     this.file = file;
+    this.outpram = [this.file,this.sText];
+    console.log(this.outpram);
   }
 
   getPath() {
@@ -35,7 +39,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     config.set('path',this.path);
-    console.log(this.path);
+    // console.log(this.path);
     // this.path = fpath.relative(process.cwd(), this.path)+'/';
  }
 }
