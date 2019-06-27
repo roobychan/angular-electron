@@ -26,6 +26,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import { MatMenuModule } from "@angular/material/menu";
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 
 
 
@@ -62,7 +64,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatAutocompleteModule,
     MatIconModule,
     MatMenuModule,
-    MatTableModule
+    MatTableModule,
+    MatSidenavModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent],

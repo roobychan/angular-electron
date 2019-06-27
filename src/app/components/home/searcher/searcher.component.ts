@@ -43,7 +43,6 @@ export class SearcherComponent implements OnInit {
 
   ngAfterViewInit(){
     this.sInput.nativeElement.focus();
-    console.log("after view init")
   }
 
   ngOnChanges() {

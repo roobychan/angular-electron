@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
   onSearch(file:string){
     this.file = file;
     this.outpram = [this.file,this.sText];
-    console.log(this.outpram);
   }
 
   getPath() {
